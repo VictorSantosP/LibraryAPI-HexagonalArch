@@ -1,7 +1,9 @@
 package com.example.libraryApi;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class LibraryApiApplication {
@@ -10,4 +12,14 @@ public class LibraryApiApplication {
 		SpringApplication.run(LibraryApiApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner run (TesteRepository repository){
+		return args -> {
+			System.out.println("Checking database connection...");
+			repository.findAll().forEach(registro -> {
+				System.out.println("Dado encontrado: " + registro.getNome());
+			});
+			System.out.println("Database connection established succesfully!");
+		};
+	}
 }

@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:18.4
+    container_name: library_postgres
+    environment:
+      POSTGRES_DB: library_post_db
+      POSTGRES_USER:  post_user
+      POSTGRES_PASSWORD:  041154
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - library-network
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U post_user -d library_post_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+      driver: local
+
+networks:
+  library-network:
+    driver: bridge

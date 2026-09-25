@@ -7,19 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class LibraryApiApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryApiApplication.class, args);
-	}
-
-	@Bean
-	CommandLineRunner run (TesteRepository repository){
-		return args -> {
-			System.out.println("Checking database connection...");
-			repository.findAll().forEach(registro -> {
-				System.out.println("Dado encontrado: " + registro.getNome());
-			});
-			System.out.println("Database connection established succesfully!");
-		};
 	}
 }

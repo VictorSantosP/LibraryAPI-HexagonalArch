@@ -1,7 +1,9 @@
 package com.example.libraryApi.book.adapters.inbound.rest;
 
 
+import com.example.libraryApi.book.adapters.inbound.rest.dto.BookResponse;
 import com.example.libraryApi.book.adapters.inbound.rest.dto.CreateBookRequest;
+import com.example.libraryApi.book.adapters.inbound.rest.mapper.BookRestMapper;
 import com.example.libraryApi.book.application.command.CreateBookCommand;
 import com.example.libraryApi.book.domain.Book;
 import com.example.libraryApi.book.port.inbound.CreateBookUseCase;
@@ -19,20 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     private final CreateBookUseCase createBookUseCase;
+    private final BookRestMapper mapper;
 
     @PostMapping("/register-book")
-    public ResponseEntity<Book> create (@RequestBody CreateBookRequest request){
+    public ResponseEntity<BookResponse> create (@RequestBody CreateBookRequest request){
 
-        CreateBookCommand cmd = new CreateBookCommand(
-                request.title(),
-                request.author(),
-                request.isbn(),
-                request.publishedAt()
-        );
+        CreateBookCommand cmd = mapper.toCommand(request);
 
         Book book = createBookUseCase.execute(cmd);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(book);
+        BookResponse response = mapper.toResponse(book);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

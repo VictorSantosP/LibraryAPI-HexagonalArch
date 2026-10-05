@@ -5,16 +5,14 @@ import com.example.libraryApi.book.domain.Book;
 import com.example.libraryApi.book.port.inbound.CreateBookUseCase;
 import com.example.libraryApi.book.port.outbound.BookRepository;
 import com.example.libraryApi.shared.exception.BookAlreadyExistsException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookService implements CreateBookUseCase {
 
     private final BookRepository repo;
-
-    public BookService(BookRepository repo){
-        this.repo = repo;
-    }
 
     @Override
     public Book execute(CreateBookCommand cmd){
